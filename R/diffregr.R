@@ -1000,7 +1000,7 @@ perm.diffregr_pval <- function(y1,y2,x1,x2,act1,act2,act,n.perm){
 ##' \item{beta}{Regression coefficients (MLE) obtaind in cleaning-step.}
 ##' @author n.stadler
 ##' @export
-##' @example ../diffregr_ss_ex.R
+##' @example tests/Examples/diffregr_ss_ex.R
 diffregr_singlesplit<- function(y1,y2,x1,x2,split1,split2,screen.meth='screen_cvtrunc.lasso',
                                 compute.evals='est2.my.ev3.diffregr',method.compquadform='imhof',acc=1e-04,
                                 epsabs=1e-10,epsrel=1e-10,
@@ -1109,7 +1109,7 @@ diffregr_singlesplit<- function(y1,y2,x1,x2,split1,split2,screen.meth='screen_cv
 ##' \item{beta.last}{constrained mle (regression coefficients) obtained in last cleaning-step}
 ##' @author n.stadler
 ##' @export
-##' @example ../diffregr_ex.R
+##' @example tests/Examples/diffregr_ex.R
 diffregr_multisplit<- function(y1,y2,x1,x2,b.splits=50,frac.split=1/2,screen.meth='screen_cvtrunc.lasso',
                                gamma.min=0.05,compute.evals='est2.my.ev3.diffregr',
                                method.compquadform='imhof',acc=1e-04,epsabs=1e-10,epsrel=1e-10,

@@ -1395,7 +1395,7 @@ diffnet_pval <- function(x1,x2,x,sig1,sig2,sig,mu1,mu2,mu,act1,act2,act,compute.
 ##' \item{mu}{mle (mean) obtained in cleaning-step}
 ##' @author n.stadler
 ##' @export
-##' @example ../diffnet_ss_ex.R
+##' @example tests/Examples/diffnet_ss_ex.R
 diffnet_singlesplit<- function(x1,x2,split1,split2,screen.meth='screen_bic.glasso',
                                compute.evals='est2.my.ev3',algorithm.mleggm='glasso_rho0',include.mean=FALSE,
                                method.compquadform='imhof',acc=1e-04,epsabs=1e-10,epsrel=1e-10,
@@ -1549,7 +1549,7 @@ diffnet_singlesplit<- function(x1,x2,split1,split2,screen.meth='screen_bic.glass
 ##' \item{wi.last}{constrained mle (inverse covariance matrix) obtained in last cleaning-step}
 ##' @author n.stadler
 ##' @export
-##' @example ../diffnet_ex.R
+##' @example tests/Examples/diffnet_ex.R
 diffnet_multisplit<- function(x1,x2,b.splits=50,frac.split=1/2,screen.meth='screen_bic.glasso',include.mean=FALSE,
                               gamma.min=0.05,compute.evals='est2.my.ev3',algorithm.mleggm='glasso_rho0',
                               method.compquadform='imhof',acc=1e-04,epsabs=1e-10,epsrel=1e-10,

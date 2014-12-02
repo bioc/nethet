@@ -706,7 +706,7 @@ mixglasso_init<- function(x,n.comp,lambda,
 ##' \item{mmdl.opt}{Index of model with optimal MMDL score.}
 ##' @author n.stadler
 ##' @export
-##' @example ../mixglasso_ex.R
+##' @example tests/Examples/mixglasso_ex.R
 mixglasso <- function(x,n.comp,
                           lambda=sqrt(2*nrow(x)*log(ncol(x)))/2,
                           pen='glasso.parcor',
