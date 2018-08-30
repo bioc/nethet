@@ -18,6 +18,7 @@ install_github('FrankD/NetHet')
 
 Also available on Bioconductor-devel (with R-devel > 3.2 only):
 
-source("http://bioconductor.org/biocLite.R")
+if (!requireNamespace("BiocManager", quietly=TRUE))
+    install.packages("BiocManager")
 
-biocLite("nethet")
+BiocManager::install("nethet")
