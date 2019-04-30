@@ -264,6 +264,8 @@ To demonstrate \texttt{het\_cv\_glasso}, we will generate some data in
 the same way as in the previous section:
 
 <<echo=TRUE, include=TRUE>>=
+set.seed(10)
+
 n = 100
 p = 25
 

@@ -276,9 +276,13 @@ cv.glasso <- function(x,folds=10,lambda,penalize.diagonal=FALSE,plot.it=FALSE,se
 ##' x=matrix(rnorm(n*p),n,p)
 ##' wihat=screen_cv.glasso(x,folds=2)$wi
 screen_cv.glasso <- function(x,include.mean=FALSE,
-                             folds=10,length.lambda=20,lambdamin.ratio=ifelse(ncol(x)>nrow(x),0.01,0.001),penalize.diagonal=FALSE,
+                             folds=min(10,dim(x)[1]),
+														 length.lambda=20,lambdamin.ratio=ifelse(ncol(x)>nrow(x),0.01,0.001),penalize.diagonal=FALSE,
                              trunc.method='linear.growth',trunc.k=5,plot.it=FALSE,se=FALSE,use.package='huge',verbose=FALSE)
 { 
+	
+	if(dim(x)[1] < 5) stop('Sample size too small to perform cross-validation')
+	
   gridmax <- lambda.max(x)
   gridmin <- lambdamin.ratio*gridmax
   lambda <- make_grid(gridmin,gridmax,length.lambda)[length.lambda:1]
