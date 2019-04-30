@@ -199,7 +199,7 @@ ww.mat.diffregr <- function(Sig,act,act1,act2){
   ##Compute W and Eval(W) (without simplification of W)
   ##
   ##Input:
-  ##  Sig: E_0[s(X)s(X)´] (information matrix)
+  ##  Sig: E_0[s(X)s(X)'] (information matrix)
   ##  act: active variables for joint model
   ##  act1,act2: active variables for individual models
   bfg <- rbind(Sig[act1,act,drop=FALSE],Sig[act2,act,drop=FALSE])
@@ -228,7 +228,7 @@ ww.mat2.diffregr <- function(Sig,act,act1,act2){
   ##Compute W and Eval(W) ('1st order' simplification of W)
   ##
   ##Input:
-  ##  Sig: E_0[s(X)s(X)´]
+  ##  Sig: E_0[s(X)s(X)']
   ##  act: active variables for joint model (including sigma^2)
   ##  act1,act2: active variables for individual models (including sigma_1^2, sigma_2^2)
   dimf <- length(act1)+length(act2)
@@ -289,7 +289,7 @@ my.ev2.diffregr <- function(Sig,act,act1,act2){
   ##Compute Eval (with 2nd order simplification of W)
   ##
   ##Input:
-  ##  Sig: E_0[s(X)s(X)´]
+  ##  Sig: E_0[s(X)s(X)']
   ##  act: active beta's for joint model (without sigma^2)
   ##  act1,act2: active beta's for individual models (without sigma_1^2, sigma_2^2)
   
