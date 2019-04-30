@@ -230,21 +230,31 @@ EXPStep.mix <- function(logphi,mix.prob){
 ##' @return w; wi; iter
 ##' @author n.stadler
 ##' @keywords internal
-glasso.parcor <- function(s,rho,penalize.diagonal,maxiter=1000,term=10^{-3}){
-    ww <- diag(s)
-    iter <- 0
-    err <- Inf #convergence of parameters
-    param <- as.vector(diag(s))
+glasso.parcor <- function(s,rho,penalize.diagonal,maxiter=1000,term=10^{-3},
+													verbose=FALSE){
+  ww <- diag(s)
+  iter <- 0
+  err <- Inf #convergence of parameters
+  param <- as.vector(diag(s))
+  
+  if(verbose) cat('Start\n')
+  
+  while((err>term)&(iter<maxiter)){
+    
+  	if(verbose) cat(iter, ' ', mean(ww), ' ', sd(ww), '\n')
+    
+  	gl <- glasso(s,rho=rho*ww,penalize.diagonal=penalize.diagonal, 
+    						 approx=FALSE)
+    
+    ww <- 1/(diag(gl$wi))
+    param.old <- param
+    param <- as.vector(gl$w)
+    err <- max(abs(param-param.old)/(1+abs(param)))
+    iter <- iter+1
+  }
+  
 
-    while((err>term)&(iter<maxiter)){
-        gl <- glasso(s,rho=rho*ww,penalize.diagonal=penalize.diagonal)
-        ww <- 1/(diag(gl$wi))
-        param.old <- param
-        param <- as.vector(gl$w)
-        err <- max(abs(param-param.old)/(1+abs(param)))
-        iter <- iter+1
-    }
-    list(w=gl$w,wi=gl$wi,iter=iter)
+  list(w=gl$w,wi=gl$wi,iter=iter)
 }
 
 ##' Graphical Lasso based on inverse covariance penalty
@@ -518,7 +528,6 @@ mixglasso_init<- function(x,n.comp,lambda,
   ##u.init, mix.prob.init: initialization
   ##gamma: see penalty
   ##pen: 'glasso','glasso.parcor','glasso.corinv'
-  ##penalize.diagonal: see ?glasso !!!! in general: use PENALIZE.DIAGONAL=FALSE;
   ##                                    more detailed: for gamma=0 use PENALIZE.DIAGONAL=FALSE (PENALIZE.DIAGONAL=TRUE does NOT work !);
   ##                                                   for gamma=1 use PENALIZE.DIAGONAL=TRUE (PENALIZE.DIAGONAL=FALSE does also work)
   ##term: see termination of EM
@@ -601,6 +610,7 @@ mixglasso_init<- function(x,n.comp,lambda,
       fit.E <- EXPStep.mix(logphi,mix.prob)
       unew <- fit.E$u
       loglik <- fit.E$loglik
+      
       if (((any(colSums(unew)<=min.compsize))&(iter>miniter))|any(colSums(unew)<=5)){#min.compsize is a tuning-param for stoping EM; EM stops always if compsize<5
         compsize <- colSums(u)
         cat("         -mixglasso: comp too small; min(n_k)=",min(colSums(unew)),'\n')
