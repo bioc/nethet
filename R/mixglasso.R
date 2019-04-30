@@ -227,6 +227,7 @@ EXPStep.mix <- function(logphi,mix.prob){
 ##' @param penalize.diagonal no descr
 ##' @param maxiter no descr
 ##' @param term no descr
+##' @param verbose set to TRUE to print out progress.
 ##' @return w; wi; iter
 ##' @author n.stadler
 ##' @keywords internal
