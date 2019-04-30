@@ -12,13 +12,12 @@ Plotting and exporting - Convenient display and analysis of results.
 
 Easy installation from github: 
 
-library('devtools')
+    devtools::install_github('FrankD/nethet')
 
-install_github('FrankD/NetHet')
+Also available on Bioconductor:
 
-Also available on Bioconductor-devel (with R-devel > 3.2 only):
+    if (!requireNamespace("BiocManager", quietly=TRUE))
+        install.packages("BiocManager")
+        
+    BiocManager::install("nethet")
 
-if (!requireNamespace("BiocManager", quietly=TRUE))
-    install.packages("BiocManager")
-
-BiocManager::install("nethet")

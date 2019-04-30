@@ -2,8 +2,8 @@ Package: nethet
 Type: Package
 Title: A bioconductor package for high-dimensional exploration of
     biological network heterogeneity
-Version: 1.15.0
-Date: 2015-08-18
+Version: 1.15.1
+Date: 2019-04-30
 Author: Nicolas Staedler, Frank Dondelinger
 Maintainer: Nicolas Staedler <staedler.n@gmail.com>,
     Frank Dondelinger <fdondelinger.work@gmail.com>
@@ -40,4 +40,6 @@ Suggests:
 biocViews: Clustering, GraphAndNetwork
 VignetteBuilder: knitr
 License: GPL-2
-Packaged: 2015-08-18 11:04:06 UTC; FrankD
+Packaged: 2019-04-30 11:04:06 UTC; FrankD
+
+

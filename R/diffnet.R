@@ -282,7 +282,7 @@ screen_cv.glasso <- function(x,include.mean=FALSE,
 { 
 	
 	if(dim(x)[1] < 5) stop('Sample size too small to perform cross-validation')
-	
+
   gridmax <- lambda.max(x)
   gridmin <- lambdamin.ratio*gridmax
   lambda <- make_grid(gridmin,gridmax,length.lambda)[length.lambda:1]

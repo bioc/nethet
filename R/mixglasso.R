@@ -610,7 +610,7 @@ mixglasso_init<- function(x,n.comp,lambda,
       fit.E <- EXPStep.mix(logphi,mix.prob)
       unew <- fit.E$u
       loglik <- fit.E$loglik
-      
+
       if (((any(colSums(unew)<=min.compsize))&(iter>miniter))|any(colSums(unew)<=5)){#min.compsize is a tuning-param for stoping EM; EM stops always if compsize<5
         compsize <- colSums(u)
         cat("         -mixglasso: comp too small; min(n_k)=",min(colSums(unew)),'\n')
