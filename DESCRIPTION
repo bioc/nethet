@@ -36,10 +36,10 @@ Imports:
 Suggests:
     knitr,
     xtable,
-    BiocStyle
+    BiocStyle,
+    testthat
 biocViews: Clustering, GraphAndNetwork
 VignetteBuilder: knitr
 License: GPL-2
 Packaged: 2019-04-30 11:04:06 UTC; FrankD
-
-
+RoxygenNote: 6.1.1
