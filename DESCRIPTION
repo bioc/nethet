@@ -32,7 +32,11 @@ Imports:
     ICSNP,
     glmnet,
     network,
-    ggplot2
+    ggplot2,
+    grDevices,
+    graphics,
+    stats,
+    utils
 Suggests:
     knitr,
     xtable,
