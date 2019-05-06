@@ -1,7 +1,21 @@
-Version 1.15.1:          Minor bug fixes. 
-Version 1.1.1 - 1.15.0:  Version bumps from BioConductor releases (no changes to nethet).
-Version 1.1.1:           Temporarily removed screen_shrink function due to bug in parcor
-                         package. Added covariance matrix as output of screen_cvglasso.
-Version 0.99.5 - 1.0.0:  Minor bug fixes and Bioconductor compliance issues resolved.
-                         First Bioconductor-devel release.
-Version 0.99.0:          First release.
+Changes in version 1.15.1          
+
+  + Minor bug fixes. 
+
+Changes in version 1.15.0  
+
+  + Version bumps from BioConductor releases (no changes to nethet).
+
+Changes in version 1.1.1           
+
+  + Temporarily removed screen_shrink function due to bug in parcor package. 
+  + Added covariance matrix as output of screen_cvglasso.
+
+Changes in version 1.0.0  
+
+  + Minor bug fixes and Bioconductor compliance issues resolved.
+  + First Bioconductor-devel release.
+
+Changes in version 0.99.0          
+
+  + First release.
