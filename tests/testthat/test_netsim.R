@@ -28,13 +28,13 @@ emp.mean = sapply(1:4, function(x) colMeans(test.data$X[test.data$S==x,]))
 emp.cov = sapply(1:4, function(x) var(test.data$X[test.data$S==x,]), simplify='array')
 
 test_that("Correct Mean and Sigma", {
-          expect_less_than(sum(abs(emp.mean-Mu)), 0.1*p*n.comps)
-          expect_less_than(sum(abs(emp.cov-Sigma)), 0.1*p*n.comps*n.comps)})
+          expect_lt(sum(abs(emp.mean-Mu)), 0.1*p*n.comps)
+          expect_lt(sum(abs(emp.cov-Sigma)), 0.1*p*n.comps*n.comps)})
 
 emp.mix = sapply(1:4, function(x) sum(test.data$S==x)/length(test.data$S))
 
 test_that("Correct mixture components",
-          expect_less_than(sum(abs(emp.mix-mix.prob)), 0.1))
+          expect_lt(sum(abs(emp.mix-mix.prob)), 0.1))
 
 test_that("t-distribution throws no error",
           expect_true({sim_mix(100, n.comps, mix.prob, Mu[,1], Sigma, 
@@ -55,5 +55,5 @@ emp.mean = sapply(1:4, function(x) colMeans(test.data$data[test.data$comp==x,]))
 emp.cov = sapply(1:4, function(x) var(test.data$data[test.data$comp==x,]), simplify='array')
 
 test_that("Correct Mean and Sigma", {
-  expect_less_than(sum(abs(emp.mean-test.data$Mu)), 0.1*p*n.comps)
-  expect_less_than(sum(abs(emp.cov-test.data$Sig)), 0.1*p*n.comps*n.comps)})
+  expect_lt(sum(abs(emp.mean-test.data$Mu)), 0.2*p*n.comps)
+  expect_lt(sum(abs(emp.cov-test.data$Sig)), 0.2*p*n.comps*n.comps)})
