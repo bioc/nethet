@@ -29,7 +29,7 @@ library(huge)
 #' @param normalise If TRUE, normalise the columns of the data matrix before 
 #' running glasso.
 #' @param verbose If TRUE, output progress.
-#' @param ... Further parameters to be passed to \code{screen_cv.lasso}.
+#' @param ... Further parameters to be passed to \code{screen_cv.glasso}.
 #' @export
 #' @return Returns a list with named elements 'Sig', 'SigInv', 'Mu', 'Sigma.diag', 
 #' 'group.names' and 'var.names. 

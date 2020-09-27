@@ -25,7 +25,7 @@ running glasso.}
 
 \item{verbose}{If TRUE, output progress.}
 
-\item{...}{Further parameters to be passed to \code{screen_cv.lasso}.}
+\item{...}{Further parameters to be passed to \code{screen_cv.glasso}.}
 }
 \value{
 Returns a list with named elements 'Sig', 'SigInv', 'Mu', 'Sigma.diag', 

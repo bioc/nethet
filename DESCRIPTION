@@ -2,8 +2,8 @@ Package: nethet
 Type: Package
 Title: A bioconductor package for high-dimensional exploration of
     biological network heterogeneity
-Version: 1.17.0
-Date: 2019-04-30
+Version: 1.17.1
+Date: 2020-09-27
 Author: Nicolas Staedler, Frank Dondelinger
 Maintainer: Nicolas Staedler <staedler.n@gmail.com>,
     Frank Dondelinger <fdondelinger.work@gmail.com>
@@ -19,7 +19,6 @@ Description: Package nethet is an implementation of statistical solid
 Imports:
     glasso,
     mvtnorm,
-    parcor,
     GeneNet,
     huge,
     CompQuadForm,
@@ -45,5 +44,5 @@ Suggests:
 biocViews: Clustering, GraphAndNetwork
 VignetteBuilder: knitr
 License: GPL-2
-Packaged: 2019-04-30 11:04:06 UTC; FrankD
+Packaged: 2020-09-27 11:04:06 UTC; FrankD
 RoxygenNote: 6.1.1

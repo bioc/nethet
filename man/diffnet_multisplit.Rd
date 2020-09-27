@@ -25,7 +25,7 @@ You might need to center and scale your data-matrix.}
 \item{frac.split}{Fraction train-data (screening) / test-data (cleaning) (default=0.5).}
 
 \item{screen.meth}{Screening procedure. Options: 'screen_bic.glasso' (default),
-'screen_cv.glasso', 'screen_shrink' (not recommended), 'screen_mb'.}
+'screen_cv.glasso', 'screen_shrink' (not recommended).}
 
 \item{include.mean}{Should sample specific means be included in hypothesis?
 Use include.mean=FALSE (default and recommended) which assumes mu1=mu2=0

@@ -37,12 +37,13 @@ fit4 <-  mixglasso(sim$data,n.comp=1:6,lambda=Inf)
 
 ##compare bic
 library('ggplot2')
-plotting.frame <- data.frame(BIC= c(fit1$bic, fit3$bic, fit4$bic), 
-														 Num.Comps=rep(1:6, 3), Lambda=rep( 
-														 	                        c('Default', 
-														 													  'Lambda = 0',
-														 														'Lambda = Inf'),
-														 													each=6))
+plotting.frame <- 
+  data.frame(BIC= c(fit1$bic, fit3$bic, fit4$bic), 
+             Num.Comps=rep(1:6, 3), 
+             Lambda=rep(c('Default', 
+                          'Lambda = 0',
+                          'Lambda = Inf'),
+                        each=6))
 
 p <- ggplot(plotting.frame) + 
 	geom_line(aes(x=Num.Comps, y=BIC, colour=Lambda))

@@ -22,7 +22,7 @@ You might need to center and scale your data-matrix.}
 \item{split2}{Samples (condition 2) used in screening step.}
 
 \item{screen.meth}{Screening procedure. Options: 'screen_bic.glasso' (default),
-'screen_cv.glasso', 'screen_shrink' (not recommended), 'screen_mb'.}
+'screen_cv.glasso', 'screen_shrink' (not recommended).}
 
 \item{compute.evals}{Method to estimate the weights in the weighted-sum-of-chi2s distribution.
 The default and (currently) the only available option 

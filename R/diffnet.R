@@ -10,7 +10,7 @@
 #####################
 library(mvtnorm)
 library(glasso)
-library(parcor)
+#library(parcor)
 library(GeneNet)
 library(huge)
 library(CompQuadForm)
@@ -561,24 +561,6 @@ screen_aic.glasso <- function(x,include.mean=TRUE,length.lambda=20,lambdamin.rat
   list(rho.opt=fit.aicgl$rho.opt,wi=wi.trunc,wi.orig=wi) 
 }
 
-##' Screen_lasso
-##'
-##' 
-##' @title Screen_lasso
-##' @param x no descr
-##' @param include.mean no descr
-##' @param trunc.method no descr
-##' @param trunc.k no descr
-##' @return no descr
-##' @author n.stadler
-##' @keywords internal
-screen_lasso <- function(x,include.mean=NULL,
-                         trunc.method='linear.growth',trunc.k=5){
-  
-  wi <- adalasso.net(x, k = 10,use.Gram=FALSE,both=FALSE,verbose=FALSE)$pcor.lasso
-  wi.trunc <- mytrunc.method(n=nrow(x),wi=wi,method=trunc.method,trunc.k=trunc.k)$wi
-  list(rho.opt=NULL,wi=wi.trunc,wi.orig=wi)
-}
 
 ##' Shrinkage approach for estimating Gaussian graphical model
 ##'
@@ -609,119 +591,6 @@ screen_shrink <- function(x,include.mean=NULL,
   wi[adj==0] <- 0
   wi.trunc <- mytrunc.method(n=nrow(x),wi=wi,method=trunc.method,trunc.k=trunc.k)$wi
   list(rho.opt=NULL,wi=wi.trunc,wi.orig=wi)
-}
-
-##' Node-wise Lasso-regressions for GGM estimation
-##' 
-##' (Meinshausen-Buehlmann approach)
-##' 
-##' @title Node-wise Lasso-regressions for GGM estimation
-##' @param x The input data. Needs to be a num.samples by dim.samples matrix.
-##' @param include.mean Include mean in likelihood. TRUE / FALSE (default).
-##' @param folds Number of folds in the cross-validation (default=10).
-##' @param length.lambda  Length of lambda path to consider (default=20).
-##' @param lambdamin.ratio  Ratio lambda.min/lambda.max.
-##' @param penalize.diagonal If TRUE apply penalization to diagonal of inverse
-##'        covariance as well. (default=FALSE)
-##' @param trunc.method None / linear.growth (default) / sqrt.growth
-##' @param trunc.k truncation constant, number of samples per predictor (default=5)
-##' @param plot.it TRUE / FALSE (default)
-##' @param se default=FALSE.
-##' @param verbose If TRUE, output la.min, la.max and la.opt (default=FALSE).
-##' @return  Returns a list with named elements 'rho.opt', 'wi'.
-##'          Variable rho.opt is the optimal (scaled) penalization parameter (rho.opt=2*la.opt/n). 
-##'          The variables wi is a matrix of size dim.samples by dim.samples 
-##'          containing the truncated inverse covariance matrix. Variable 
-##'          Mu mean of the input data.
-##' @author n.stadler
-##' @export
-##' @examples
-##' n=50
-##' p=5
-##' x=matrix(rnorm(n*p),n,p)
-##' wihat=screen_mb(x)$wi
-screen_mb <- function(x,include.mean=NULL,
-                      folds=10,length.lambda=20,lambdamin.ratio=ifelse(ncol(x)>nrow(x),0.01,0.001),
-                      penalize.diagonal=FALSE,trunc.method='linear.growth',trunc.k=5,
-                      plot.it=FALSE,se=FALSE,verbose=FALSE)
-{
-  p <- ncol(x)
-  gridmax <- lambda.max(x)
-  gridmin <- gridmax*lambdamin.ratio
-  lambda <- make_grid(gridmin,gridmax,length.lambda)[length.lambda:1]
-  
-  colnames(x)<-paste('x',1:ncol(x),sep='')  
-  all.folds <- cv.fold(nrow(x),folds)
-  residmat <- matrix(NA,folds,length.lambda)
-  
-  for (cvfold in 1:folds){
-    omit <- all.folds[[cvfold]]
-    s <- var(x[-omit,])
-    fit.path <- glassopath(s,rholist=2*lambda/nrow(x),penalize.diagonal=penalize.diagonal,trace=0,approx=TRUE)
-    myres <- sapply(1:p,function(j){colMeans((x[omit,j]-x[omit,-j,drop=FALSE]%*%fit.path$wi[-j,j,])^2)})
-    residmat[cvfold,] <- rowSums(myres)
-  }
-  cv <- apply(residmat,2,mean)
-  cv.error <- sqrt(apply(residmat,2,var)/folds)
-  gl.opt<-glasso(var(x),rho=2*lambda[which.min(cv)]/nrow(x),penalize.diagonal=penalize.diagonal,approx=TRUE)
-  if(verbose){
-    cat('la.min:',gridmin,'\n')
-    cat('la.max:',gridmax,'\n')
-    cat('la.opt:',lambda[which.min(cv)],'\n')
-  }
-  
-  wi<-Beta2parcor(gl.opt$wi)
-  #wi[abs(wi)<10^{-3}]<-0
-  colnames(wi)<-rownames(wi)<-colnames(x)
-  wi <- mytrunc.method(n=nrow(x),wi=wi,method=trunc.method,trunc.k=trunc.k)$wi
-  
-  if (plot.it){
-    plotCV(lambda,cv,cv.error,se=se)
-  }
-  
-  list(rho.opt=2*lambda[which.min(cv)]/nrow(x),wi=wi)
-}
-
-##' Screen_mb2
-##'
-##' 
-##' @title Screen_mb2
-##' @param x no descr
-##' @param include.mean no descr
-##' @param length.lambda no descr
-##' @param trunc.method no descr
-##' @param trunc.k no descr
-##' @param plot.it no descr
-##' @param verbose no descr
-##' @return no descr
-##' @author n.stadler
-##' @keywords internal
-screen_mb2 <- function(x,include.mean=NULL,length.lambda=20,
-                       trunc.method='linear.growth',trunc.k=5,plot.it=FALSE,verbose=FALSE)
-{
-  p <- ncol(x)
-  beta <- rep(0,p)
-  Beta <- sapply(1:p,function(j){
-    fit.cv <- cv.glmnet(x[,-j],x[,j],standardize=FALSE,nlambda=length.lambda)
-    if(verbose){
-      cat('vertex no ',j,' laopt ',0.5*nrow(x)*fit.cv$lambda.min,'\n')
-    }
-    if(plot.it){
-      if(j==1){
-        plot(fit.cv$lambda,fit.cv$cvm/max(fit.cv$cvm),type='b',cex=0.5,ylim=c(0,1))
-      }else{
-        lines(fit.cv$lambda,fit.cv$cvm/max(fit.cv$cvm),type='b',cex=0.5)
-      }
-    }
-    beta[-j] <- as.numeric(coef(fit.cv,s='lambda.min')[-1])
-    return(beta)})
-                 
-  wi<-Beta2parcor(Beta)
-  #wi[abs(wi)<10^{-3}]<-0
-  colnames(wi)<-rownames(wi)<-colnames(x)
-  wi <- mytrunc.method(n=nrow(x),wi=wi,method=trunc.method,trunc.k=trunc.k)$wi
-  
-  list(rho.opt=NULL,wi=wi)
 }
 
 ##' Screen_full
@@ -1377,7 +1246,7 @@ diffnet_pval <- function(x1,x2,x,sig1,sig2,sig,mu1,mu2,mu,act1,act2,act,compute.
 ##' @param split1 Samples (condition 1) used in screening step. 
 ##' @param split2 Samples (condition 2) used in screening step. 
 ##' @param screen.meth Screening procedure. Options: 'screen_bic.glasso' (default),
-##'                    'screen_cv.glasso', 'screen_shrink' (not recommended), 'screen_mb'.
+##'                    'screen_cv.glasso', 'screen_shrink' (not recommended).
 ##' @param compute.evals Method to estimate the weights in the weighted-sum-of-chi2s distribution.
 ##'                      The default and (currently) the only available option 
 ##'                      is the method 'est2.my.ev3'.
@@ -1519,7 +1388,7 @@ diffnet_singlesplit<- function(x1,x2,split1,split2,screen.meth='screen_bic.glass
 ##' @param b.splits Number of splits (default=50).
 ##' @param frac.split Fraction train-data (screening) / test-data (cleaning) (default=0.5).
 ##' @param screen.meth Screening procedure. Options: 'screen_bic.glasso' (default),
-##'                    'screen_cv.glasso', 'screen_shrink' (not recommended), 'screen_mb'.
+##'                    'screen_cv.glasso', 'screen_shrink' (not recommended).
 ##' @param include.mean Should sample specific means be included in hypothesis?
 ##'                     Use include.mean=FALSE (default and recommended) which assumes mu1=mu2=0
 ##'                     and tests the hypothesis H0: Omega_1=Omega_2.
